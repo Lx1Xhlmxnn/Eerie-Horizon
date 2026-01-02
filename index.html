@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eerie Horizon</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+/* --- Global --- */
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Roboto', sans-serif; color:#fff; overflow-x:hidden; }
+
+/* --- Navbar --- */
+#navbar {
+  position: fixed; top:0; left:0; width:100%;
+  display:flex; justify-content: space-between; align-items:center;
+  padding:1rem 2rem; background: rgba(10,10,10,0.85);
+  color:#00ffe5; z-index:2000; backdrop-filter: blur(5px);
+}
+#navbar h2 { font-size:1.5rem; cursor:pointer; text-shadow:0 0 10px #00ffe5; }
+#navbar nav a { margin-left:1.5rem; color:#00ffe5; text-decoration:none; font-weight:bold; transition: color 0.3s; }
+#navbar nav a:hover { color:#8a2be2; }
+
+/* --- Hero --- */
+#hero {
+  height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center;
+  background: url('OIP.png') no-repeat center center/cover;
+  position:relative; text-align:center;
+}
+#hero::after {
+  content:''; position:absolute; top:0; left:0; width:100%; height:100%;
+  background: rgba(0,0,0,0.4); /* heller Overlay für mehr Sichtbarkeit */
+}
+#hero h1 {
+  position: relative; font-size:4rem; color:#00ffe5;
+  text-shadow:0 0 10px #00ffe5,0 0 20px #8a2be2; animation: glow 2.5s ease-in-out infinite alternate;
+}
+#hero p {
+  position: relative; margin-top:1rem; font-size:1.5rem; color:#ccc; animation: fadeUp 2s ease forwards; opacity:0;
+}
+@keyframes glow {
+  0% { text-shadow:0 0 10px #00ffe5,0 0 20px #8a2be2; }
+  100% { text-shadow:0 0 20px #00ffe5,0 0 40px #8a2be2; }
+}
+@keyframes fadeUp { 0%{opacity:0;transform:translateY(20px);} 100%{opacity:1; transform:translateY(0);} }
+
+/* --- Nebel-Effekt --- */
+#hero::before {
+  content:''; position:absolute; top:0; left:0; width:100%; height:100%;
+  background: url('https://i.ibb.co/f8mM4nz/fog-overlay.png') repeat; /* Nebel-PNG Overlay */
+  opacity:0.2; z-index:1;
+}
+
+/* --- Footer --- */
+footer { text-align:center; padding:1rem; background:#1a1a1a; color:#888; font-size:0.9rem; margin-top:-4px; }
+
+/* --- Responsive --- */
+@media (max-width:768px){ #hero h1{font-size:2.5rem;} #hero p{font-size:1rem;} #navbar nav a{margin-left:1rem;} }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div id="navbar">
+  <h2 onclick="location.href='index.html'">Eerie Horizon</h2>
+  <nav>
+    <a href="index.html">Start</a>
+    <a href="karte.html">Karte</a>
+  </nav>
+</div>
+
+<!-- Hero Section -->
+<section id="hero">
+  <h1>Eerie Horizon</h1>
+  <p>Entdecke die vergessenen Orte, die die Zeit verschluckt hat</p>
+</section>
+
+<!-- Footer -->
+<footer>
+  &copy; 2026 Eerie Horizon • Alle Rechte vorbehalten
+</footer>
+
+</body>
+</html>

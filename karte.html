@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eerie Horizon – Karte</title>
+
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Roboto', sans-serif; background:#0d0d0d; color:#fff; overflow-x:hidden; }
+
+/* Navbar */
+#navbar {
+  position: fixed; top:0; left:0; width:100%;
+  display:flex; justify-content: space-between; align-items:center;
+  padding:1rem 2rem; background: rgba(10,10,10,0.85);
+  color:#00ffe5; z-index:2000; backdrop-filter: blur(5px);
+}
+#navbar h2 { font-size:1.5rem; cursor:pointer; text-shadow:0 0 10px #00ffe5; }
+#navbar nav a { margin-left:1.5rem; color:#00ffe5; text-decoration:none; font-weight:bold; transition: color 0.3s; }
+#navbar nav a:hover { color:#8a2be2; }
+
+/* Map */
+#map { width:100%; height:90vh; margin-top:60px; }
+
+/* Filter Menü */
+#filter { position:absolute; top:80px; right:20px; background: rgba(10,10,10,0.85); padding:1rem; border-radius:10px; color:#00ffe5; z-index:1000; }
+#filter select { background:#111; color:#00ffe5; border:1px solid #8a2be2; padding:0.3rem; border-radius:5px; }
+
+/* Leaflet Popup */
+.leaflet-popup-content { background:#111; color:#00ffe5; font-size:0.95rem; border-radius:8px; padding:0.5rem; }
+.leaflet-popup-content img { width:100%; border-radius:5px; margin-top:0.5rem; }
+
+/* Marker Glow */
+.glow-marker { animation:pulse 2s infinite; }
+@keyframes pulse {
+  0%{transform:scale(1); filter:drop-shadow(0 0 5px #00ffe5);}
+  50%{transform:scale(1.2); filter:drop-shadow(0 0 15px #8a2be2);}
+  100%{transform:scale(1); filter:drop-shadow(0 0 5px #00ffe5);}
+}
+
+/* Footer */
+footer { text-align:center; padding:1rem; background:#1a1a1a; color:#888; font-size:0.9rem; }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div id="navbar">
+  <h2 onclick="location.href='index.html'">Eerie Horizon</h2>
+  <nav>
+    <a href="index.html">Start</a>
+    <a href="karte.html">Karte</a>
+  </nav>
+</div>
+
+<!-- Filter -->
+<div id="filter">
+  Filter nach Kategorie:
+  <select id="ortFilter">
+    <option value="all">Alle</option>
+  </select>
+</div>
+
+<!-- Map -->
+<div id="map"></div>
+
+<!-- Footer -->
+<footer>
+  &copy; 2026 Eerie Horizon • Alle Rechte vorbehalten
+</footer>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+// Karte initialisieren
+const map = L.map('map').setView([51.1657, 10.4515], 6);
+
+L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_dark/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openstreetmap.org">OSM</a>',
+  maxZoom: 20
+}).addTo(map);
+
+// Marker Icon
+const eerieIcon = L.icon({
+  iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png',
+  iconSize: [32, 32],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -32],
+  className: 'glow-marker'
+});
+
+let markers = [];
+
+// Orte laden
+fetch('orte.json')
+  .then(res => res.json())
+  .then(data => {
+    const filterSelect = document.getElementById('ortFilter');
+    const types = new Set();
+
+    data.forEach(ort => {
+      const marker = L.marker([ort.lat, ort.lng], { icon: eerieIcon }).addTo(map);
+
+      let popupContent = `<strong>${ort.name}</strong>`;
+      if (ort.beschreibung) popupContent += `<p>${ort.beschreibung}</p>`;
+      if (ort.bild) popupContent += `<img src="${ort.bild}" alt="${ort.name}">`;
+
+      marker.bindPopup(popupContent);
+
+      marker.on('mouseover', () => marker.openPopup());
+      marker.on('mouseout', () => marker.closePopup());
+
+      const typ = ort.category || "Unbekannt";
+
+      markers.push({ marker, type: typ });
+      types.add(typ);
+    });
+
+    types.forEach(type => {
+      const option = document.createElement('option');
+      option.value = type;
+      option.textContent = type;
+      filterSelect.appendChild(option);
+    });
+
+    filterSelect.addEventListener('change', e => {
+      const sel = e.target.value;
+      markers.forEach(m => {
+        if (sel === 'all' || m.type === sel) {
+          map.addLayer(m.marker);
+        } else {
+          map.removeLayer(m.marker);
+        }
+      });
+    });
+  })
+  .catch(err => console.error('Fehler beim Laden von orte.json', err));
+</script>
+
+</body>
+</html>
