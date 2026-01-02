@@ -81,68 +81,18 @@ footer { text-align:center; padding:1rem; background:#1a1a1a; color:#888; font-s
 
 <script>
 // Karte initialisieren
-const map = L.map('map').setView([51.1657, 10.4515], 6);
+const map = L.map('map').setView([51.05, 13.74], 12);
 
-L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_dark/{z}/{x}/{y}{r}.png', {
-  attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openstreetmap.org">OSM</a>',
-  maxZoom: 20
+// OpenStreetMap Tiles (funktioniert ohne API-Key)
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 19,
+  attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
-// Marker Icon
-const eerieIcon = L.icon({
-  iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png',
-  iconSize: [32, 32],
-  iconAnchor: [16, 32],
-  popupAnchor: [0, -32],
-  className: 'glow-marker'
-});
-
-let markers = [];
-
-// Orte laden
-fetch('orte.json')
-  .then(res => res.json())
-  .then(data => {
-    const filterSelect = document.getElementById('ortFilter');
-    const types = new Set();
-
-    data.forEach(ort => {
-      const marker = L.marker([ort.lat, ort.lng], { icon: eerieIcon }).addTo(map);
-
-      let popupContent = `<strong>${ort.name}</strong>`;
-      if (ort.beschreibung) popupContent += `<p>${ort.beschreibung}</p>`;
-      if (ort.bild) popupContent += `<img src="${ort.bild}" alt="${ort.name}">`;
-
-      marker.bindPopup(popupContent);
-
-      marker.on('mouseover', () => marker.openPopup());
-      marker.on('mouseout', () => marker.closePopup());
-
-      const typ = ort.category || "Unbekannt";
-
-      markers.push({ marker, type: typ });
-      types.add(typ);
-    });
-
-    types.forEach(type => {
-      const option = document.createElement('option');
-      option.value = type;
-      option.textContent = type;
-      filterSelect.appendChild(option);
-    });
-
-    filterSelect.addEventListener('change', e => {
-      const sel = e.target.value;
-      markers.forEach(m => {
-        if (sel === 'all' || m.type === sel) {
-          map.addLayer(m.marker);
-        } else {
-          map.removeLayer(m.marker);
-        }
-      });
-    });
-  })
-  .catch(err => console.error('Fehler beim Laden von orte.json', err));
+// Beispielmarker (damit du siehst, dass es funktioniert)
+L.marker([51.05, 13.74]).addTo(map)
+  .bindPopup("<b>Beispiel-Ort</b><br>Hier könnte dein Inhalt stehen.")
+  .openPopup();
 </script>
 
 </body>
