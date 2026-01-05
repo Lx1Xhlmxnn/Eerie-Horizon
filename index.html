@@ -173,6 +173,25 @@ nav a {
   opacity:0.9;
 }
 
+/* FOOTER */
+footer {
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  text-align:center;
+  padding:1rem;
+  background:rgba(0,0,0,0.35);
+  backdrop-filter:blur(14px);
+  font-size:.9rem;
+  z-index:1500;
+}
+footer a {
+  color:var(--green-light);
+  text-decoration:none;
+  margin-left:8px;
+}
+
 @media (max-width:700px){
   .hero h2{font-size:48px}
   header{padding:16px 20px}
@@ -221,6 +240,14 @@ nav a {
   </p>
 </section>
 
+<!-- FOOTER -->
+<footer>
+  © 2026 ECHORUIN •
+  <a href="impressum.html">Impressum</a> •
+  <a href="datenschutz.html">Datenschutz</a> •
+  <a href="nutzungshinweis.html">Nutzungshinweis</a>
+</footer>
+
 <script>
 const loader=document.getElementById("loader");
 Promise.all([
@@ -231,5 +258,3 @@ Promise.all([
 
 </body>
 </html>
-
-
