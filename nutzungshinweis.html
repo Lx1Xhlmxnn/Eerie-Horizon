@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Nutzungshinweis – ECHORUIN</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    :root {
+      --green: #6b8f71;
+      --green-light: #8fb49a;
+      --green-dark: #4f6b56;
+      --green-glow: rgba(107, 143, 113, 0.35);
+      --dark: #0b0d10;
+      --light: #e5e7eb;
+      --warning: #ffdd7a;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--dark);
+      color: var(--light);
+      font-family: system-ui, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      background-image: url("https://images.pexels.com/photos/929382/pexels-photo-929382.jpeg");
+      background-size: cover;
+      background-position: center;
+      background-blend-mode: multiply;
+    }
+
+    .card {
+      max-width: 900px;
+      width: 100%;
+      padding: 40px;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(18px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+      text-align: center;
+    }
+
+    .warning {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 2px solid var(--warning);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto 20px;
+      box-shadow: 0 0 20px var(--warning);
+      animation: pulse 1.8s infinite ease-in-out;
+    }
+
+    .warning span {
+      font-size: 2.8rem;
+      color: var(--warning);
+      animation: blink 1.8s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 20px var(--warning);
+      }
+      50% {
+        transform: scale(1.08);
+        box-shadow: 0 0 35px var(--warning);
+      }
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, var(--green-light), var(--green-dark));
+      -webkit-background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 20px var(--green-glow);
+    }
+
+    p {
+      line-height: 1.7;
+      opacity: 0.9;
+      margin-bottom: 18px;
+    }
+
+    strong {
+      color: var(--green-light);
+    }
+
+    ul {
+      text-align: left;
+      max-width: 700px;
+      margin: 0 auto 20px;
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <div class="warning"><span>!</span></div>
+
+    <h1>Nutzungshinweis & Schutz aller Inhalte</h1>
+
+    <p>
+      Die gesamte Website <strong>ECHORUIN</strong> – einschließlich aller sichtbaren und unsichtbaren Bestandteile – ist umfassend urheberrechtlich geschützt.  
+      Dieser Schutz gilt unabhängig von Medium, Format oder technischer Umsetzung und umfasst <strong>ausnahmslos alle Elemente</strong> dieses Projekts.
+    </p>
+
+    <p><strong>Geschützt sind insbesondere:</strong></p>
+
+    <ul>
+      <li><strong>Texte</strong>, Beschreibungen, Storytelling, Namen, Kategorien, Titel, Begriffe</li>
+      <li><strong>Design</strong>, Layout, Struktur, Navigation, UI/UX, Farbkonzept, Glas-/Glow-Stil, Typografie</li>
+      <li><strong>Bilder</strong>, Fotos, Grafiken, Icons, Logos, Illustrationen, Hintergründe</li>
+      <li><strong>Karten</strong>, Marker, Filter, Ortsnamen, Beschreibungen, Metadaten, Datenstrukturen</li>
+      <li><strong>Ideen</strong>, Konzepte, Atmosphäre, Stilistik, Präsentationsform, Markenidentität</li>
+      <li><strong>Quellcode</strong> (HTML, CSS, JS, JSON), Animationen, Effekte, technische Umsetzung</li>
+      <li><strong>Struktur & Zusammenstellung</strong> aller Inhalte, Daten und Darstellungen</li>
+    </ul>
+
+    <p>
+      Ohne vorherige <strong>schriftliche Erlaubnis</strong> ist es strengstens untersagt, Inhalte oder Teile davon zu kopieren, speichern, veröffentlichen, weiterzugeben oder in eigenen Projekten – egal ob privat, öffentlich oder kommerziell – zu verwenden.
+    </p>
+
+    <p><strong>Verboten sind insbesondere:</strong></p>
+
+    <ul>
+      <li>Übernahme oder Abwandlung von Texten, Bildern, Daten oder Beschreibungen</li>
+      <li>Verwendung des Designs, Layouts, Stils oder visuellen Konzepts als Vorlage</li>
+      <li>Weitergabe oder Veröffentlichung von Code, Bildern oder Inhalten</li>
+      <li>Kommerzielle oder nicht-kommerzielle Nutzung ohne Genehmigung</li>
+      <li>Imitation der Idee, Struktur oder Präsentationsform</li>
+    </ul>
+
+    <p>
+      Die einzige erlaubte Nutzung ohne Zustimmung ist das <strong>Betrachten der Website im Browser</strong>.  
+      Jede Form der Weiterverarbeitung, Speicherung oder Wiederverwendung ist untersagt.
+    </p>
+
+    <p>
+      Für Kooperationen oder offizielle Nutzung einzelner Elemente ist eine vorherige schriftliche Genehmigung erforderlich.
+    </p>
+  </div>
+</body>
+</html>
