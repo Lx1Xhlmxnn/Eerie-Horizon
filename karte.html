@@ -124,10 +124,37 @@ body{
   opacity:.8;
 }
 
-/* POPUP */
-.leaflet-popup-content{
-  background:#111;
+/* INFO WINDOW (custom popup) */
+#infoWindow{
+  position:fixed;
+  top:110px;
+  left:50%;
+  transform:translateX(-50%);
+  width:320px;
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(16px);
+  padding:1rem 1.2rem;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 0 25px var(--green-glow);
   color:var(--green-light);
+  z-index:3000;
+  transition:opacity .3s ease, transform .3s ease;
+}
+#infoWindow.hidden{
+  opacity:0;
+  pointer-events:none;
+  transform:translate(-50%, -10px);
+}
+#infoWindow h3{
+  margin-bottom:4px;
+  font-size:1.3rem;
+  color:var(--green-light);
+  text-shadow:0 0 12px var(--green-glow);
+}
+#infoWindow img{
+  width:100%;
+  margin-top:10px;
   border-radius:8px;
 }
 
@@ -153,6 +180,7 @@ footer a{
 @media(max-width:700px){
   #navbar{padding:.8rem 1rem}
   #filter{right:10px}
+  #infoWindow{width:90%}
 }
 </style>
 </head>
@@ -181,6 +209,14 @@ footer a{
     <option value="all">Alle</option>
   </select>
   <div id="resultCount"></div>
+</div>
+
+<!-- CUSTOM INFO WINDOW -->
+<div id="infoWindow" class="hidden">
+  <h3 id="infoTitle"></h3>
+  <p id="infoCategory"></p>
+  <p id="infoDesc"></p>
+  <img id="infoImg" src="" alt="">
 </div>
 
 <!-- MAP -->
@@ -222,12 +258,24 @@ fetch("orte.json")
     kategorien.add(o.kategorie);
     const m=L.marker([o.lat,o.lng]);
     m.kategorie=o.kategorie;
-    m.bindPopup(`
-      <b>${o.name}</b><br>
-      <i>${o.kategorie}</i><br>
-      ${o.beschreibung}
-      ${o.bild ? `<img src="${o.bild}" style="width:100%;margin-top:6px;border-radius:6px">` : ""}
-    `);
+
+    // CUSTOM INFO WINDOW
+    m.on("click", () => {
+      document.getElementById("infoTitle").textContent = o.name;
+      document.getElementById("infoCategory").textContent = o.kategorie;
+      document.getElementById("infoDesc").textContent = o.beschreibung;
+
+      const img = document.getElementById("infoImg");
+      if(o.bild){
+        img.src = o.bild;
+        img.style.display = "block";
+      } else {
+        img.style.display = "none";
+      }
+
+      document.getElementById("infoWindow").classList.remove("hidden");
+    });
+
     alleMarker.push(m);
     markerCluster.addLayer(m);
   });
@@ -259,6 +307,11 @@ document.getElementById("ortFilter").addEventListener("change",e=>{
   updateCount();
 });
 
+/* CLOSE INFO WINDOW ON MAP CLICK */
+map.on("click", () => {
+  document.getElementById("infoWindow").classList.add("hidden");
+});
+
 /* LOADER */
 Promise.all([
   new Promise(r=>setTimeout(r,2000)),
@@ -268,4 +321,3 @@ Promise.all([
 
 </body>
 </html>
-
