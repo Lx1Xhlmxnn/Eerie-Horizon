@@ -6,17 +6,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex">
   <style>
+    :root {
+      --green-light:#8fb49a;
+      --dark:#0b0d10;
+      --light:#e5e7eb;
+    }
+
     body {
       font-family: system-ui, sans-serif;
-      background:#0b0d10;
-      color:#e5e7eb;
-      padding:40px;
-      line-height:1.7;
-      max-width:900px;
-      margin:auto;
+      background: var(--dark);
+      color: var(--light);
+      padding: 40px;
+      line-height: 1.7;
+      max-width: 900px;
+      margin: auto;
+      padding-bottom: 120px; /* Platz für Footer */
     }
-    h1,h2 { color:#8fb49a; }
-    a { color:#8fb49a; }
+
+    h1, h2 { 
+      color: var(--green-light); 
+    }
+
+    a { 
+      color: var(--green-light); 
+    }
+
+    /* FOOTER */
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      padding: 1rem;
+      background: rgba(0,0,0,0.35);
+      backdrop-filter: blur(14px);
+      font-size: .9rem;
+      z-index: 1500;
+    }
+
+    footer a {
+      color: var(--green-light);
+      text-decoration: none;
+      margin-left: 8px;
+    }
   </style>
 </head>
 <body>
@@ -61,6 +94,14 @@ Eine Vervielfältigung, Bearbeitung oder Verbreitung außerhalb der Grenzen des 
 </p>
 
 <p><a href="index.html">← Zurück zur Startseite</a></p>
+
+<!-- FOOTER -->
+<footer>
+  © 2026 ECHORUIN •
+  <a href="impressum.html">Impressum</a> •
+  <a href="datenschutz.html">Datenschutz</a> •
+  <a href="nutzungshinweis.html">Nutzungshinweis</a>
+</footer>
 
 </body>
 </html>
