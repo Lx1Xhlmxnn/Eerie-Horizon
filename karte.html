@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ECHORUIN – Karte</title>
+
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+<!-- MarkerCluster -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css">
+
+<style>
+:root {
+  --green:#6b8f71;
+  --green-light:#8fb49a;
+  --green-dark:#4f6b56;
+  --green-glow:rgba(107,143,113,0.35);
+  --dark:#0b0d10;
+  --light:#e5e7eb;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:system-ui,sans-serif;
+  background:var(--dark);
+  color:#fff;
+  overflow:hidden;
+}
+
+/* LOADER */
+#loader{
+  position:fixed;
+  inset:0;
+  background:#0b0d10;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+  transition:opacity .6s ease;
+}
+#loader h1{
+  font-size:48px;
+  color:var(--green-light);
+  letter-spacing:3px;
+  margin-bottom:30px;
+  text-shadow:0 0 25px var(--green-glow);
+}
+.loader-bar{
+  width:260px;
+  height:10px;
+  background:rgba(255,255,255,.08);
+  border-radius:10px;
+  overflow:hidden;
+}
+.loader-progress{
+  height:100%;
+  width:0%;
+  background:linear-gradient(135deg,var(--green),var(--green-dark));
+  animation:loadingBar 2s ease forwards;
+}
+@keyframes loadingBar{to{width:100%}}
+#loader.hidden{opacity:0;pointer-events:none}
+
+/* NAVBAR */
+#navbar{
+  position:fixed;
+  top:0;left:0;
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:1rem 2rem;
+  background:rgba(0,0,0,.35);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(255,255,255,.05);
+  z-index:2000;
+}
+#navbar h2{
+  color:var(--green-light);
+  cursor:pointer;
+  text-shadow:0 0 12px var(--green-glow);
+}
+#navbar nav a{
+  margin-left:1.5rem;
+  color:var(--light);
+  text-decoration:none;
+  font-weight:600;
+}
+#navbar nav a:hover{color:var(--green-light)}
+
+/* MAP */
+#map{width:100%;height:100vh}
+
+/* FILTER */
+#filter{
+  position:absolute;
+  top:90px;
+  right:20px;
+  background:rgba(0,0,0,.45);
+  backdrop-filter:blur(14px);
+  padding:1rem;
+  border-radius:12px;
+  color:var(--green-light);
+  z-index:1500;
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 0 20px var(--green-glow);
+}
+#filter select{
+  width:100%;
+  margin-top:6px;
+  background:#111;
+  color:var(--green-light);
+  border:1px solid var(--green-dark);
+  padding:.4rem;
+  border-radius:6px;
+}
+#resultCount{
+  margin-top:8px;
+  font-size:.85rem;
+  opacity:.8;
+}
+
+/* POPUP */
+.leaflet-popup-content{
+  background:#111;
+  color:var(--green-light);
+  border-radius:8px;
+}
+
+/* FOOTER */
+footer{
+  position:fixed;
+  bottom:0;left:0;
+  width:100%;
+  text-align:center;
+  padding:1rem;
+  background:rgba(0,0,0,.35);
+  backdrop-filter:blur(14px);
+  font-size:.9rem;
+  z-index:1500;
+}
+footer a{
+  color:var(--green-light);
+  text-decoration:none;
+  margin-left:8px;
+}
+
+/* MOBILE */
+@media(max-width:700px){
+  #navbar{padding:.8rem 1rem}
+  #filter{right:10px}
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <h1>ECHORUIN</h1>
+  <div class="loader-bar"><div class="loader-progress"></div></div>
+</div>
+
+<!-- NAVBAR -->
+<div id="navbar">
+  <h2 onclick="location.href='index.html'">ECHORUIN</h2>
+  <nav>
+    <a href="index.html">Start</a>
+    <a href="karte.html">Karte</a>
+  </nav>
+</div>
+
+<!-- FILTER -->
+<div id="filter">
+  Filter nach Kategorie
+  <select id="ortFilter">
+    <option value="all">Alle</option>
+  </select>
+  <div id="resultCount"></div>
+</div>
+
+<!-- MAP -->
+<div id="map"></div>
+
+<!-- FOOTER -->
+<footer>
+  © 2026 ECHORUIN •
+  <a href="impressum.html">Impressum</a> •
+  <a href="datenschutz.html">Datenschutz</a>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+
+<script>
+const map=L.map('map').setView([51.05,13.74],12);
+
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
+  maxZoom:19,
+  attribution:'© OpenStreetMap © CARTO'
+}).addTo(map);
+
+const markerCluster=L.markerClusterGroup({
+  showCoverageOnHover:false,
+  disableClusteringAtZoom:17
+});
+
+let alleMarker=[];
+
+fetch("orte.json")
+.then(r=>r.json())
+.then(data=>{
+  const kategorien=new Set();
+
+  data.forEach(o=>{
+    kategorien.add(o.kategorie);
+    const m=L.marker([o.lat,o.lng]);
+    m.kategorie=o.kategorie;
+    m.bindPopup(`
+      <b>${o.name}</b><br>
+      <i>${o.kategorie}</i><br>
+      ${o.beschreibung}
+      ${o.bild ? `<img src="${o.bild}" style="width:100%;margin-top:6px;border-radius:6px">` : ""}
+    `);
+    alleMarker.push(m);
+    markerCluster.addLayer(m);
+  });
+
+  const sel=document.getElementById("ortFilter");
+  kategorien.forEach(k=>{
+    const opt=document.createElement("option");
+    opt.value=k;
+    opt.textContent=k;
+    sel.appendChild(opt);
+  });
+
+  map.addLayer(markerCluster);
+  updateCount();
+});
+
+function updateCount(){
+  document.getElementById("resultCount").textContent=
+    markerCluster.getLayers().length+" Orte werden angezeigt";
+}
+
+document.getElementById("ortFilter").addEventListener("change",e=>{
+  markerCluster.clearLayers();
+  alleMarker.forEach(m=>{
+    if(e.target.value==="all"||m.kategorie===e.target.value){
+      markerCluster.addLayer(m);
+    }
+  });
+  updateCount();
+});
+
+/* LOADER */
+Promise.all([
+  new Promise(r=>setTimeout(r,2000)),
+  new Promise(r=>window.onload=r)
+]).then(()=>document.getElementById("loader").classList.add("hidden"));
+</script>
+
+</body>
+</html>
