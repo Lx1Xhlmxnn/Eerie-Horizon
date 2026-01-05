@@ -24,9 +24,9 @@
       font-family: system-ui, sans-serif;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       min-height: 100vh;
-      padding: 20px;
+      padding: 40px 20px 140px; /* Platz für Footer */
       background-image: url("https://images.pexels.com/photos/929382/pexels-photo-929382.jpeg");
       background-size: cover;
       background-position: center;
@@ -109,6 +109,26 @@
     li {
       margin-bottom: 10px;
     }
+
+    /* FOOTER */
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      padding: 1rem;
+      background: rgba(0,0,0,0.35);
+      backdrop-filter: blur(14px);
+      font-size: .9rem;
+      z-index: 1500;
+    }
+
+    footer a {
+      color: var(--green-light);
+      text-decoration: none;
+      margin-left: 8px;
+    }
   </style>
 </head>
 
@@ -158,5 +178,14 @@
       Für Kooperationen oder offizielle Nutzung einzelner Elemente ist eine vorherige schriftliche Genehmigung erforderlich.
     </p>
   </div>
+
+  <!-- FOOTER -->
+  <footer>
+    © 2026 ECHORUIN •
+    <a href="impressum.html">Impressum</a> •
+    <a href="datenschutz.html">Datenschutz</a> •
+    <a href="nutzungshinweis.html">Nutzungshinweis</a>
+  </footer>
+
 </body>
 </html>
