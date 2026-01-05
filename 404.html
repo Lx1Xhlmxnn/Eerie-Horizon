@@ -1,228 +1,674 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<title>404 – Seite nicht gefunden</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>404 – Seite nicht gefunden | ECHORUIN</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-:root {
-  --green:#6b8f71;
-  --green-light:#8fb49a;
-  --green-dark:#4f6b56;
-  --green-glow:rgba(107,143,113,0.35);
-  --dark:#0b0d10;
-  --light:#e5e7eb;
-  --warning:#ffdd7a;
-}
+  <style>
+    :root {
+      --green: #6b8f71;
+      --green-light: #8fb49a;
+      --green-dark: #4f6b56;
+      --green-glow: rgba(107,143,113,0.45);
+      --dark: #050709;
+      --light: #e5e7eb;
+      --warning: #ffdd7a;
+      --red: #ff6b6b;
+    }
 
-body {
-  margin:0;
-  padding:0;
-  background:var(--dark);
-  color:var(--light);
-  font-family:system-ui,sans-serif;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  min-height:100vh;
-  text-align:center;
-  padding:20px;
-  background-image:url("https://images.pexels.com/photos/929382/pexels-photo-929382.jpeg");
-  background-size:cover;
-  background-position:center;
-  background-blend-mode:multiply;
-}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-/* CONTAINER */
-.wrapper {
-  max-width:900px;
-  width:100%;
-  background:rgba(0,0,0,0.45);
-  backdrop-filter:blur(18px);
-  padding:40px;
-  border-radius:20px;
-  border:1px solid rgba(255,255,255,0.08);
-  box-shadow:0 0 40px rgba(0,0,0,0.6);
-}
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #101418 0, #050709 45%, #020305 100%);
+      color: var(--light);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow: hidden;
+      position: relative;
+    }
 
-/* ANIMATION AREA */
-.animation {
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:40px;
-  margin-bottom:30px;
-  flex-wrap:wrap;
-}
+    /* Grain overlay */
+    .grain {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      opacity: 0.22;
+      mix-blend-mode: soft-light;
+      background-image:
+        radial-gradient(circle at 1px 1px, rgba(255,255,255,0.12) 1px, transparent 0),
+        radial-gradient(circle at 2px 2px, rgba(0,0,0,0.55) 1px, transparent 0);
+      background-size: 3px 3px, 7px 7px;
+      z-index: -1;
+    }
 
-/* COMIC FIGURE */
-.figure {
-  width:120px;
-  height:180px;
-  position:relative;
-}
+    .wrapper {
+      max-width: 960px;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(20px) saturate(130%);
+      -webkit-backdrop-filter: blur(20px) saturate(130%);
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.7),
+        0 26px 80px rgba(0,0,0,0.95),
+        0 0 45px rgba(107,143,113,0.22);
+      padding: 32px 32px 36px;
+    }
 
-/* Kopf */
-.figure .head {
-  width:70px;
-  height:70px;
-  background:#222;
-  border-radius:50%;
-  border:2px solid var(--green-light);
-  margin:auto;
-  position:relative;
-  box-shadow:0 0 15px var(--green-glow);
-}
+    .scene {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
 
-/* Augen */
-.eye {
-  width:10px;
-  height:10px;
-  background:var(--green-light);
-  border-radius:50%;
-  position:absolute;
-  top:26px;
-  animation:blink 4s infinite;
-}
-.eye.left { left:18px; }
-.eye.right { right:18px; }
+    /* FIGURE + FLASHLIGHT */
 
-@keyframes blink {
-  0%, 90%, 100% { transform:scaleY(1); }
-  92% { transform:scaleY(0.1); }
-}
+    .figure-wrap {
+      position: relative;
+      width: 220px;
+      height: 220px;
+    }
 
-/* Körper */
-.figure .body {
-  width:60px;
-  height:90px;
-  background:#111;
-  border:2px solid var(--green-dark);
-  border-radius:10px;
-  margin:10px auto 0;
-}
+    .fog-circle {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255,255,255,0.08) 0, transparent 55%),
+        radial-gradient(circle at 0% 100%, rgba(107,143,113,0.25) 0, transparent 65%);
+      opacity: 0.9;
+      filter: blur(4px);
+    }
 
-/* COMPUTER */
-.computer {
-  width:180px;
-  height:140px;
-  background:#111;
-  border-radius:10px;
-  border:2px solid var(--green-dark);
-  position:relative;
-  box-shadow:0 0 20px var(--green-glow);
-}
+    .figure {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 120px;
+      height: 180px;
+      filter: drop-shadow(0 0 18px rgba(0,0,0,0.8));
+    }
 
-/* Bildschirm */
-.screen {
-  width:140px;
-  height:80px;
-  background:#000;
-  border:2px solid var(--green-light);
-  margin:15px auto 0;
-  border-radius:6px;
-  position:relative;
-  overflow:hidden;
-}
+    /* Körper: Silhouette mit Kapuze */
+    .figure-body {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70px;
+      height: 110px;
+      background: radial-gradient(circle at 50% 0%, #272b30 0, #090b0e 45%, #020306 100%);
+      border-radius: 40px 40px 20px 20px;
+      box-shadow:
+        0 0 25px rgba(0,0,0,0.9),
+        0 0 18px rgba(5,10,8,0.8);
+      border: 1px solid rgba(255,255,255,0.04);
+    }
 
-/* Zahnrad */
-.gear {
-  width:40px;
-  height:40px;
-  border:4px solid var(--green-light);
-  border-radius:50%;
-  position:absolute;
-  top:20px;
-  left:50%;
-  transform:translateX(-50%);
-  animation:rotate 3s linear infinite;
-}
+    .figure-hood {
+      position: absolute;
+      bottom: 110px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 70px;
+      border-radius: 50% 50% 35% 35%;
+      background: radial-gradient(circle at 50% 10%, #313842 0, #080a0e 55%, #020305 100%);
+      box-shadow:
+        0 -4px 12px rgba(0,0,0,0.7),
+        0 0 28px rgba(0,0,0,0.9);
+      border: 1px solid rgba(255,255,255,0.02);
+    }
 
-@keyframes rotate {
-  from { transform:translateX(-50%) rotate(0deg); }
-  to { transform:translateX(-50%) rotate(360deg); }
-}
+    .figure-face {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 42px;
+      height: 32px;
+      border-radius: 40px;
+      top: 20px;
+      background: radial-gradient(circle at 50% 0%, #14171b 0, #080a0e 45%, #050709 100%);
+      box-shadow: 0 0 10px rgba(0,0,0,0.8);
+    }
 
-/* Sprechblase */
-.bubble {
-  position:absolute;
-  top:-40px;
-  right:-20px;
-  background:#222;
-  padding:10px 18px;
-  border-radius:12px;
-  border:2px solid var(--green-light);
-  color:var(--green-light);
-  font-weight:600;
-  box-shadow:0 0 15px var(--green-glow);
-}
+    .figure-eye {
+      position: absolute;
+      top: 13px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green-light);
+      box-shadow:
+        0 0 12px rgba(111,255,168,0.8),
+        0 0 20px rgba(111,255,168,0.4);
+      animation: eyeBlink 4s infinite;
+    }
 
-.bubble::after {
-  content:"";
-  position:absolute;
-  bottom:-10px;
-  right:20px;
-  width:0;
-  height:0;
-  border-left:10px solid transparent;
-  border-right:10px solid transparent;
-  border-top:10px solid #222;
-}
+    .figure-eye.left { left: 10px; }
+    .figure-eye.right { right: 10px; }
 
-/* TEXT */
-h1 {
-  font-size:2.4rem;
-  background:linear-gradient(135deg,var(--green-light),var(--green-dark));
-  -webkit-background-clip:text;
-  color:transparent;
-  text-shadow:0 0 20px var(--green-glow);
-}
+    @keyframes eyeBlink {
+      0%, 88%, 100% { transform: scaleY(1); }
+      90% { transform: scaleY(0.15); }
+    }
 
-p {
-  font-size:1.1rem;
-  opacity:0.85;
-  margin-top:10px;
-}
+    /* Taschenlampe */
+    .flashlight {
+      position: absolute;
+      bottom: 46px;
+      left: 50%;
+      transform: translateX(12px) rotate(18deg);
+      width: 24px;
+      height: 26px;
+      background: #070a09;
+      border-radius: 6px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.8);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
 
-a {
-  color:var(--green-light);
-  text-decoration:none;
-  font-weight:600;
-}
-</style>
+    .flashlight-head {
+      position: absolute;
+      top: -4px;
+      left: 0;
+      right: 0;
+      margin: auto;
+      width: 22px;
+      height: 10px;
+      border-radius: 10px;
+      background: #090d0b;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    /* Lichtkegel */
+    .light-cone {
+      position: absolute;
+      bottom: 60px;
+      left: 50%;
+      transform-origin: bottom left;
+      transform: translateX(24px) rotate(18deg);
+      width: 280px;
+      height: 280px;
+      background: conic-gradient(
+        from 200deg,
+        rgba(139,204,158,0.28),
+        rgba(139,204,158,0.08),
+        transparent 60%
+      );
+      clip-path: polygon(0 0, 100% 25%, 100% 75%);
+      filter: blur(3px);
+      opacity: 0.75;
+      animation: coneSweep 4.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes coneSweep {
+      0% {
+        transform: translateX(14px) rotate(10deg);
+        opacity: 0.55;
+      }
+      100% {
+        transform: translateX(28px) rotate(24deg);
+        opacity: 0.85;
+      }
+    }
+
+    /* MONITOR */
+
+    .monitor-wrap {
+      position: relative;
+      width: 260px;
+      height: 210px;
+    }
+
+    .monitor {
+      position: relative;
+      margin: 0 auto;
+      width: 230px;
+      height: 150px;
+      border-radius: 18px;
+      background: radial-gradient(circle at 20% 0%, #323438 0, #12151a 40%, #050609 100%);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow:
+        0 18px 40px rgba(0,0,0,0.9),
+        0 0 30px rgba(107,143,113,0.35);
+      overflow: hidden;
+    }
+
+    .monitor-bezel-top {
+      position: absolute;
+      inset: 10px 16px auto 16px;
+      height: 90px;
+      border-radius: 12px;
+      background: radial-gradient(circle at 50% 0%, #050809 0, #020304 55%, #000000 100%);
+      box-shadow: inset 0 0 18px rgba(0,0,0,1);
+      overflow: hidden;
+    }
+
+    .monitor-screen {
+      position: absolute;
+      inset: 14px 22px auto 22px;
+      height: 82px;
+      border-radius: 10px;
+      background: radial-gradient(circle at 50% 0%, #0aff98 0, #0b1b14 35%, #020403 100%);
+      opacity: 0.9;
+      box-shadow:
+        inset 0 0 20px rgba(0,0,0,0.9),
+        0 0 20px rgba(11,255,152,0.35);
+      overflow: hidden;
+    }
+
+    /* Scanline + Flackern */
+    .scanline {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.15),
+        rgba(0,0,0,0.15) 2px,
+        transparent 2px,
+        transparent 4px
+      );
+      mix-blend-mode: multiply;
+      opacity: 0.6;
+      animation: scan 4s linear infinite;
+    }
+
+    @keyframes scan {
+      0% { transform: translateY(-10%); }
+      100% { transform: translateY(10%); }
+    }
+
+    .screen-glow {
+      position: absolute;
+      inset: -30%;
+      background: radial-gradient(circle, rgba(11,255,152,0.26) 0, transparent 65%);
+      mix-blend-mode: screen;
+      opacity: 0.6;
+    }
+
+    /* Zahnrad */
+    .gear {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 48px;
+      height: 48px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 5px solid rgba(3,25,18,0.9);
+      box-shadow:
+        0 0 0 2px rgba(176,255,210,0.4),
+        0 0 20px rgba(11,255,152,0.7);
+      animation: gearRotate 3.6s linear infinite;
+    }
+
+    .gear::before,
+    .gear::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border-radius: 50%;
+      border: 2px solid rgba(176,255,210,0.7);
+    }
+
+    .gear::after {
+      inset: 19px;
+      background: rgba(0,0,0,0.85);
+      box-shadow: inset 0 0 8px rgba(0,0,0,0.9);
+    }
+
+    .gear-teeth {
+      position: absolute;
+      inset: -5px;
+    }
+
+    .gear-tooth {
+      position: absolute;
+      width: 10px;
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(176,255,210,0.9);
+      box-shadow: 0 0 12px rgba(176,255,210,0.9);
+      top: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .gear-tooth:nth-child(2) { top: auto; bottom: -4px; }
+    .gear-tooth:nth-child(3) { top: 50%; left: -4px; transform: translateY(-50%) rotate(90deg); }
+    .gear-tooth:nth-child(4) { top: 50%; right: -4px; left: auto; transform: translateY(-50%) rotate(90deg); }
+
+    @keyframes gearRotate {
+      0%   { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    /* 404 Text im Screen */
+    .screen-text {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: "Courier New", monospace;
+      font-size: 14px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #cffff0;
+      text-shadow:
+        0 0 8px rgba(176,255,210,0.9),
+        0 0 16px rgba(11,255,152,0.85);
+      animation: glitch 2.8s infinite;
+    }
+
+    @keyframes glitch {
+      0%, 92%, 100% { transform: translateX(-50%); opacity: 1; }
+      94% { transform: translateX(calc(-50% + 2px)); opacity: 0.5; }
+      96% { transform: translateX(calc(-50% - 2px)); opacity: 0.8; }
+      98% { transform: translateX(-50%); opacity: 1; }
+    }
+
+    /* Monitor Base */
+    .monitor-base {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 130px;
+      height: 34px;
+      background: radial-gradient(circle at 50% 0%, #2b3034 0, #090a0d 45%, #020305 100%);
+      border-radius: 16px 16px 10px 10px;
+      box-shadow:
+        0 8px 22px rgba(0,0,0,0.9),
+        0 0 10px rgba(0,0,0,0.7);
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .monitor-base::before {
+      content: "";
+      position: absolute;
+      inset: 7px 24px auto 24px;
+      height: 4px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 50% 50%, rgba(176,255,210,0.7) 0, rgba(2,4,4,1) 65%);
+      opacity: 0.9;
+    }
+
+    /* ERROR BUBBLE / DIALOG */
+
+    .error-dialog {
+      position: absolute;
+      top: -16px;
+      right: -6px;
+      background: rgba(5,7,10,0.98);
+      border-radius: 10px;
+      padding: 8px 14px;
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow:
+        0 0 18px rgba(0,0,0,0.9),
+        0 0 20px rgba(255,107,107,0.35);
+      font-size: 11px;
+      font-family: "Segoe UI", system-ui;
+      color: #fbdede;
+      text-align: left;
+      animation: floatDialog 3.4s ease-in-out infinite alternate;
+    }
+
+    .error-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 10px;
+    }
+
+    .error-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 10px rgba(255,107,107,0.9);
+    }
+
+    .error-body {
+      font-size: 11px;
+      opacity: 0.85;
+      white-space: nowrap;
+    }
+
+    @keyframes floatDialog {
+      0% { transform: translateY(0); opacity: 0.9; }
+      100% { transform: translateY(-6px); opacity: 1; }
+    }
+
+    /* TEXT BELOW */
+
+    .text-block {
+      text-align: center;
+    }
+
+    .eyebrow {
+      font-size: 0.8rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(143,180,154,0.65);
+      margin-bottom: 6px;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, var(--green-light), var(--green-dark));
+      -webkit-background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 26px var(--green-glow);
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin-bottom: 16px;
+    }
+
+    .hint {
+      font-size: 0.92rem;
+      opacity: 0.8;
+      margin-bottom: 22px;
+    }
+
+    .btn-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 10px 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(143,180,154,0.65);
+      background: radial-gradient(circle at 0 0, rgba(143,180,154,0.22) 0, rgba(5,7,8,0.95) 55%);
+      color: var(--light);
+      font-size: 0.9rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+      box-shadow: 0 0 0 rgba(0,0,0,0);
+    }
+
+    .btn-primary {
+      border-color: rgba(143,180,154,0.9);
+      box-shadow: 0 0 22px rgba(143,180,154,0.35);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 10px 26px rgba(0,0,0,0.8),
+        0 0 24px rgba(143,180,154,0.45);
+      background: radial-gradient(circle at 0 0, rgba(143,180,154,0.3) 0, rgba(5,7,8,0.98) 55%);
+    }
+
+    .btn span.icon {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    @media (max-width: 720px) {
+      .wrapper {
+        padding: 26px 18px 30px;
+      }
+      .scene {
+        gap: 24px;
+      }
+      .figure-wrap {
+        width: 180px;
+        height: 200px;
+      }
+      .monitor-wrap {
+        width: 220px;
+      }
+      h1 {
+        font-size: 1.7rem;
+      }
+      .subtitle {
+        font-size: 0.94rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 12px;
+      }
+      .wrapper {
+        padding: 22px 14px 26px;
+      }
+      .figure-wrap {
+        width: 160px;
+        height: 190px;
+      }
+      .monitor-wrap {
+        width: 200px;
+      }
+      .monitor {
+        width: 200px;
+        height: 135px;
+      }
+      .monitor-screen {
+        inset: 14px 18px auto 18px;
+      }
+      .screen-text {
+        font-size: 12px;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="grain"></div>
 
-<div class="wrapper">
+  <div class="wrapper">
+    <div class="scene">
+      <!-- FIGURE + FLASHLIGHT -->
+      <div class="figure-wrap">
+        <div class="fog-circle"></div>
+        <div class="light-cone"></div>
 
-  <div class="animation">
-
-    <!-- FIGURE -->
-    <div class="figure">
-      <div class="head">
-        <div class="eye left"></div>
-        <div class="eye right"></div>
+        <div class="figure">
+          <div class="figure-hood">
+            <div class="figure-face">
+              <div class="figure-eye left"></div>
+              <div class="figure-eye right"></div>
+            </div>
+          </div>
+          <div class="figure-body"></div>
+          <div class="flashlight">
+            <div class="flashlight-head"></div>
+          </div>
+        </div>
       </div>
-      <div class="body"></div>
+
+      <!-- MONITOR / ERROR -->
+      <div class="monitor-wrap">
+        <div class="monitor">
+          <div class="monitor-bezel-top"></div>
+          <div class="monitor-screen">
+            <div class="screen-glow"></div>
+            <div class="scanline"></div>
+
+            <div class="gear">
+              <div class="gear-teeth">
+                <div class="gear-tooth"></div>
+                <div class="gear-tooth"></div>
+                <div class="gear-tooth"></div>
+                <div class="gear-tooth"></div>
+              </div>
+            </div>
+
+            <div class="screen-text">error 404</div>
+          </div>
+
+          <div class="monitor-base"></div>
+
+          <div class="error-dialog">
+            <div class="error-title">
+              <div class="error-dot"></div>
+              <span>Systemmeldung</span>
+            </div>
+            <div class="error-body">
+              Datei nicht gefunden.
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- COMPUTER -->
-    <div class="computer">
-      <div class="bubble">Error 404</div>
-      <div class="screen">
-        <div class="gear"></div>
+    <!-- TEXT -->
+    <div class="text-block">
+      <div class="eyebrow">Archivfragment nicht erreichbar</div>
+      <h1>404 – Seite nicht gefunden</h1>
+      <p class="subtitle">
+        Der Ort, den du suchst, ist überwuchert, gelöscht oder wurde nie ins Archiv aufgenommen.
+      </p>
+      <p class="hint">
+        Überprüfe die Adresse oder kehre zur Startseite zurück, um einen anderen Weg durch die Ruinen zu wählen.
+      </p>
+
+      <div class="btn-row">
+        <a href="index.html" class="btn btn-primary">
+          <span class="icon">↩</span>
+          <span>Zur Startseite</span>
+        </a>
+        <a href="karte.html" class="btn">
+          <span class="icon">🗺️</span>
+          <span>Karte öffnen</span>
+        </a>
       </div>
     </div>
-
   </div>
-
-  <h1>Seite nicht gefunden</h1>
-  <p>Der Ort, den du suchst, ist überwuchert, verlassen oder existiert nicht mehr.</p>
-  <p><a href="index.html">Zurück zur Startseite</a></p>
-
-</div>
-
 </body>
 </html>
