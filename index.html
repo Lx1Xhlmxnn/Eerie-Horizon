@@ -5,15 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ECHORUIN – Archiv vergessener Orte</title>
 
-  <!-- SEO -->
-  <meta name="description" content="ECHORUIN ist ein digitales Archiv vergessener Orte. Entdecke Lost Places – überwucherte Räume, verlassene Gebäude und die stillen Echos ihrer Geschichten auf einer interaktiven Karte.">
-  <meta name="robots" content="index, follow">
-
-  <!-- OpenGraph -->
-  <meta property="og:title" content="ECHORUIN – Archiv vergessener Orte">
-  <meta property="og:description" content="Ein digitales Archiv für überwucherte Orte, vergessene Räume und die Echos vergangener Geschichten.">
-  <meta property="og:type" content="website">
-
   <style>
     :root {
       --green: #6b8f71;
@@ -32,48 +23,7 @@
       overflow-x:hidden;
     }
 
-    /* LOADER */
-    #loader {
-      position: fixed;
-      inset: 0;
-      background: #0b0d10;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      transition: opacity 0.6s ease;
-    }
-    #loader h1 {
-      font-size: 48px;
-      color: var(--green-light);
-      letter-spacing: 3px;
-      margin-bottom: 30px;
-      text-shadow: 0 0 25px var(--green-glow);
-    }
-    .loader-bar {
-      width: 260px;
-      height: 10px;
-      background: rgba(255,255,255,0.08);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-    .loader-progress {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(135deg, var(--green), var(--green-dark));
-      animation: loadingBar 2s ease forwards;
-    }
-    @keyframes loadingBar {
-      from { width: 0%; }
-      to { width: 100%; }
-    }
-    #loader.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    /* NAV */
+    /* HEADER */
     header {
       display:flex;
       justify-content:space-between;
@@ -81,6 +31,8 @@
       padding:24px 48px;
       backdrop-filter:blur(18px);
       background:rgba(0,0,0,0.35);
+      position:relative;
+      z-index:10;
     }
     header h1 {
       color:var(--green-light);
@@ -100,27 +52,19 @@
       overflow: hidden;
       position: relative;
       clip-path: polygon(0 0, 100% 18%, 100% 100%, 0 82%);
-      animation: fadeInHero 1.4s ease forwards;
-      opacity: 0;
-    }
-    @keyframes fadeInHero {
-      from { opacity: 0; transform: scale(1.05); }
-      to { opacity: 1; transform: scale(1); }
     }
     .hero-image img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       filter: brightness(0.85);
-      transform: translateY(0);
-      transition: filter 0.4s ease;
+      transition: filter 0.4s ease, transform 0.4s ease;
     }
     .hero-image::after {
       content: "";
       position: absolute;
       inset: 0;
       background: linear-gradient(to bottom right, rgba(0,50,0,0.25), rgba(0,0,0,0.55));
-      pointer-events: none;
     }
 
     /* HERO-BOX */
@@ -134,12 +78,6 @@
       margin-left: auto;
       margin-right: auto;
       text-align: center;
-      animation: floatUp 1.4s ease forwards;
-      opacity: 0;
-    }
-    @keyframes floatUp {
-      from { opacity: 0; transform: translateY(40px); }
-      to { opacity: 1; transform: translateY(0); }
     }
     .hero h2 {
       font-size: 60px;
@@ -241,7 +179,6 @@
       position: absolute;
       inset: 0;
       background: linear-gradient(to bottom right, rgba(0,50,0,0.25), rgba(0,0,0,0.55));
-      pointer-events: none;
     }
     .story-text {
       flex: 1;
@@ -252,4 +189,111 @@
       margin-bottom: 15px;
       background: linear-gradient(135deg, var(--green-light), var(--green-dark));
       -webkit-background-clip: text;
-      color
+      color: transparent;
+    }
+    .story-text p {
+      font-size: 18px;
+      line-height: 1.7;
+      opacity: 0.85;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align:center;
+      padding:1rem;
+      background:rgba(0,0,0,0.35);
+      backdrop-filter:blur(14px);
+      font-size:.9rem;
+      margin-top:80px;
+    }
+    footer a {
+      color:var(--green-light);
+      text-decoration:none;
+      margin-left:8px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>ECHORUIN</h1>
+  <nav>
+    <a href="index.html">Start</a>
+    <a href="karte.html">Karte</a>
+    <a href="whatsapp.html">WhatsApp</a>
+  </nav>
+</header>
+
+<!-- HEADER-BILD -->
+<div class="hero-image">
+  <img src="factory-4678019_1920.jpg" alt="Industriehalle">
+</div>
+
+<!-- HERO-BOX -->
+<section class="hero hero-floating">
+  <h2>ECHORUIN</h2>
+  <p>Ein Archiv für überwucherte Orte, vergessene Räume und die Echos vergangener Geschichten.</p>
+  <button class="btn" onclick="location.href='karte.html'">Karte öffnen</button>
+</section>
+
+<!-- STATS -->
+<section class="stats">
+  <div class="stat"><h3>13700+</h3><p>Verlassene Orte</p></div>
+  <div class="stat"><h3>6340+</h3><p>Archivierte Fotos</p></div>
+  <div class="stat"><h3>80000+</h3><p>Monatliche Nutzer</p></div>
+  <div class="stat"><h3>15+</h3><p>Teammitglieder</p></div>
+</section>
+
+<!-- ABOUT -->
+<section class="about">
+  <h2>Was ist ECHORUIN?</h2>
+  <p>
+    ECHORUIN ist ein digitales Archiv vergessener Orte.<br>
+    Es sammelt, dokumentiert und bewahrt Lost Places – überwucherte Räume,
+    verlassene Gebäude und die stillen Echos ihrer Geschichten –
+    auf einer modernen, interaktiven Karte.
+  </p>
+  <p style="opacity:.75;margin-top:15px">
+    Der Fokus liegt auf Dokumentation, nicht auf Erkundung.
+  </p>
+</section>
+
+<!-- STORY 1 -->
+<section class="story-section">
+  <div class="story-image diagonal">
+    <img src="lost-places-4509552_1920.jpg" alt="Verlassene Industriehalle">
+  </div>
+  <div class="story-text">
+    <h2>Industriehallen – die stillen Kolosse der Vergangenheit</h2>
+    <p>
+      Riesige Hallen, gefüllt mit Staub, Lichtstrahlen und dem Echo vergangener Arbeit.
+      Orte, an denen Maschinen schwiegen und die Zeit stehen blieb.
+    </p>
+  </div>
+</section>
+
+<!-- STORY 2 -->
+<section class="story-section reverse">
+  <div class="story-image diagonal">
+    <img src="train-8579021_1920.jpg" alt="Verlassener Zug">
+  </div>
+  <div class="story-text">
+    <h2>Verlassene Züge – eingefrorene Reisen</h2>
+    <p>
+      Waggons, die nie ankamen. Sitze, die Geschichten tragen.
+      Ein Moment, eingefroren zwischen Abfahrt und Ankunft.
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  © 2026 ECHORUIN •
+  <a href="impressum.html">Impressum</a> •
+  <a href="datenschutz.html">Datenschutz</a> •
+  <a href="nutzungshinweis.html">Nutzungshinweis</a>
+</footer>
+
+</body>
+</html>
