@@ -29,10 +29,6 @@ body {
   font-family: system-ui, sans-serif;
   background: var(--dark);
   color: var(--light);
-  background-image: url("https://images.pexels.com/photos/929382/pexels-photo-929382.jpeg");
-  background-size: cover;
-  background-position: center;
-  background-blend-mode: multiply;
   overflow-x:hidden;
 }
 
@@ -97,16 +93,81 @@ nav a {
   font-weight:600;
 }
 
-/* HERO */
-.hero {
-  text-align:center;
-  padding:120px 20px 60px;
-  backdrop-filter:blur(22px);
-  background:rgba(0,0,0,0.45);
-  margin:60px auto;
-  border-radius:20px;
-  max-width:780px;
+/* =========================================
+   DIAGONALES HEADER-BILD + PARALLAX + FADE
+   ========================================= */
+
+.hero-image {
+  width: 100%;
+  height: 65vh;
+  overflow: hidden;
+  position: relative;
+  clip-path: polygon(0 0, 100% 8%, 100% 100%, 0 92%);
+  animation: fadeInHero 1.8s ease forwards;
+  opacity: 0;
 }
+
+@keyframes fadeInHero {
+  from { opacity: 0; transform: scale(1.05); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.85);
+  transform: translateY(0);
+  transition: filter 0.4s ease;
+  will-change: transform, filter;
+}
+
+/* Overlay */
+.hero-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom right,
+    rgba(0, 50, 0, 0.25),
+    rgba(0, 0, 0, 0.55)
+  );
+  pointer-events: none;
+}
+
+/* =========================================
+   FLOATING HERO-BOX
+   ========================================= */
+
+.hero-floating {
+  margin-top: -120px;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(18px);
+  border-radius: 20px;
+  padding: 80px 20px 60px;
+  max-width: 780px;
+  margin-left: auto;
+  margin-right: auto;
+  animation: floatUp 1.4s ease forwards;
+  opacity: 0;
+}
+
+@keyframes floatUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Abdunkeln beim Scrollen */
+.hero-darken {
+  filter: brightness(0.55) !important;
+}
+
+/* Parallax */
+.parallax-active {
+  transform: translateY(var(--parallax-offset));
+}
+
+/* HERO TEXT */
 .hero h2 {
   font-size:70px;
   background:linear-gradient(135deg,var(--green-light),var(--green-dark));
@@ -215,7 +276,13 @@ footer a {
   </nav>
 </header>
 
-<section class="hero">
+<!-- DIAGONALES HEADER-BILD -->
+<div class="hero-image">
+  <img src="DEIN-BILD.jpg" alt="Industriehalle">
+</div>
+
+<!-- FLOATING HERO-BOX -->
+<section class="hero hero-floating">
   <h2>ECHORUIN</h2>
   <p>Ein Archiv für überwucherte Orte, vergessene Räume und die Echos vergangener Geschichten.</p>
   <button class="btn" onclick="location.href='karte.html'">Karte öffnen</button>
@@ -249,14 +316,32 @@ footer a {
   <a href="nutzungshinweis.html">Nutzungshinweis</a>
 </footer>
 
+<!-- LOADER + PARALLAX SCRIPT -->
 <script>
 const loader=document.getElementById("loader");
 Promise.all([
   new Promise(r=>setTimeout(r,2000)),
   new Promise(r=>window.onload=r)
 ]).then(()=>loader.classList.add("hidden"));
+
+const heroImg = document.querySelector(".hero-image img");
+
+window.addEventListener("scroll", () => {
+  const scrollY = window.scrollY;
+
+  // Parallax
+  const offset = scrollY * 0.25;
+  heroImg.style.setProperty("--parallax-offset", offset + "px");
+  heroImg.classList.add("parallax-active");
+
+  // Abdunkeln
+  if (scrollY > 120) {
+    heroImg.classList.add("hero-darken");
+  } else {
+    heroImg.classList.remove("hero-darken");
+  }
+});
 </script>
 
 </body>
 </html>
-
