@@ -99,11 +99,11 @@ nav a {
 
 .hero-image {
   width: 100%;
-  height: 65vh;
+  height: 48vh;
   overflow: hidden;
   position: relative;
-  clip-path: polygon(0 0, 100% 8%, 100% 100%, 0 92%);
-  animation: fadeInHero 1.8s ease forwards;
+  clip-path: polygon(0 0, 100% 18%, 100% 100%, 0 82%);
+  animation: fadeInHero 1.4s ease forwards;
   opacity: 0;
 }
 
@@ -140,14 +140,15 @@ nav a {
    ========================================= */
 
 .hero-floating {
-  margin-top: -120px;
+  margin-top: -80px;
   background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(18px);
   border-radius: 20px;
-  padding: 80px 20px 60px;
-  max-width: 780px;
+  padding: 60px 20px 50px;
+  max-width: 760px;
   margin-left: auto;
   margin-right: auto;
+  text-align: center;
   animation: floatUp 1.4s ease forwards;
   opacity: 0;
 }
@@ -157,26 +158,16 @@ nav a {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Abdunkeln beim Scrollen */
-.hero-darken {
-  filter: brightness(0.55) !important;
-}
-
-/* Parallax */
-.parallax-active {
-  transform: translateY(var(--parallax-offset));
-}
-
-/* HERO TEXT */
 .hero h2 {
-  font-size:70px;
+  font-size: 60px;
+  margin-bottom: 10px;
   background:linear-gradient(135deg,var(--green-light),var(--green-dark));
   -webkit-background-clip:text;
   color:transparent;
 }
 .hero p {
   font-size:20px;
-  margin-bottom:40px;
+  margin-bottom:25px;
 }
 .hero .btn {
   padding:16px 34px;
@@ -234,28 +225,117 @@ nav a {
   opacity:0.9;
 }
 
+/* =========================================
+   STORY SECTIONS (HALLE + ZUG)
+   ========================================= */
+
+.story-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  padding: 100px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  opacity: 0;
+  transform: translateY(40px);
+  animation: fadeUp 1.2s ease forwards;
+}
+
+.story-section.reverse {
+  flex-direction: row-reverse;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.story-image {
+  flex: 1;
+  height: 380px;
+  overflow: hidden;
+  position: relative;
+}
+
+.story-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.8);
+  transition: transform 0.4s ease, filter 0.4s ease;
+  will-change: transform, filter;
+}
+
+/* Diagonaler Schnitt */
+.story-image.diagonal {
+  clip-path: polygon(0 0, 100% 12%, 100% 100%, 0 88%);
+}
+
+/* Overlay */
+.story-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom right,
+    rgba(0, 50, 0, 0.25),
+    rgba(0, 0, 0, 0.55)
+  );
+  pointer-events: none;
+}
+
+/* Text */
+.story-text {
+  flex: 1;
+  padding: 20px;
+}
+
+.story-text h2 {
+  font-size: 32px;
+  margin-bottom: 15px;
+  background: linear-gradient(135deg, var(--green-light), var(--green-dark));
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.story-text p {
+  font-size: 18px;
+  line-height: 1.7;
+  opacity: 0.85;
+}
+
+/* Parallax */
+.story-parallax {
+  transform: translateY(var(--story-parallax-offset));
+}
+
+/* Mobile */
+@media (max-width: 900px) {
+  .story-section {
+    flex-direction: column;
+    text-align: center;
+  }
+  .story-section.reverse {
+    flex-direction: column;
+  }
+}
+
 /* FOOTER */
 footer {
-  position:fixed;
-  bottom:0;
-  left:0;
-  width:100%;
   text-align:center;
   padding:1rem;
   background:rgba(0,0,0,0.35);
   backdrop-filter:blur(14px);
   font-size:.9rem;
-  z-index:1500;
+  margin-top:80px;
 }
 footer a {
   color:var(--green-light);
   text-decoration:none;
   margin-left:8px;
-}
-
-@media (max-width:700px){
-  .hero h2{font-size:48px}
-  header{padding:16px 20px}
 }
 </style>
 </head>
@@ -278,7 +358,7 @@ footer a {
 
 <!-- DIAGONALES HEADER-BILD -->
 <div class="hero-image">
-  <img src="factory-4678019_1920.jpg" alt="Industriehalle">
+  <img src="DEIN-BILD.jpg" alt="Industriehalle">
 </div>
 
 <!-- FLOATING HERO-BOX -->
@@ -308,6 +388,34 @@ footer a {
   </p>
 </section>
 
+<!-- STORY SECTION – HALLE -->
+<section class="story-section">
+  <div class="story-image diagonal">
+    <img src="lost-places-4509552_1920.jpg" alt="Verlassene Industriehalle">
+  </div>
+  <div class="story-text">
+    <h2>Industriehallen – die stillen Kolosse der Vergangenheit</h2>
+    <p>
+      Riesige Hallen, gefüllt mit Staub, Lichtstrahlen und dem Echo vergangener Arbeit.
+      Orte, an denen Maschinen schwiegen und die Zeit stehen blieb.
+    </p>
+  </div>
+</section>
+
+<!-- STORY SECTION – ZUG -->
+<section class="story-section reverse">
+  <div class="story-image diagonal">
+    <img src="train-8579021_1920.jpg" alt="Verlassener Zug">
+  </div>
+  <div class="story-text">
+    <h2>Verlassene Züge – eingefrorene Reisen</h2>
+    <p>
+      Waggons, die nie ankamen. Sitze, die Geschichten tragen.  
+      Ein Moment, eingefroren zwischen Abfahrt und Ankunft.
+    </p>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer>
   © 2026 ECHORUIN •
@@ -329,7 +437,7 @@ const heroImg = document.querySelector(".hero-image img");
 window.addEventListener("scroll", () => {
   const scrollY = window.scrollY;
 
-  // Parallax
+  // Parallax Header
   const offset = scrollY * 0.25;
   heroImg.style.setProperty("--parallax-offset", offset + "px");
   heroImg.classList.add("parallax-active");
@@ -341,8 +449,20 @@ window.addEventListener("scroll", () => {
     heroImg.classList.remove("hero-darken");
   }
 });
+
+// Parallax für Story-Bilder
+const storyImages = document.querySelectorAll(".story-image img");
+
+window.addEventListener("scroll", () => {
+  const scrollY = window.scrollY;
+
+  storyImages.forEach(img => {
+    const offset = scrollY * 0.15;
+    img.style.setProperty("--story-parallax-offset", offset + "px");
+    img.classList.add("story-parallax");
+  });
+});
 </script>
 
 </body>
 </html>
-
