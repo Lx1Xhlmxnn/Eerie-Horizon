@@ -246,13 +246,6 @@ nav a {
   flex-direction: row-reverse;
 }
 
-@keyframes fadeUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .story-image {
   flex: 1;
   height: 380px;
@@ -265,8 +258,6 @@ nav a {
   height: 100%;
   object-fit: cover;
   filter: brightness(0.8);
-  transition: transform 0.4s ease, filter 0.4s ease;
-  will-change: transform, filter;
 }
 
 /* Diagonaler Schnitt */
@@ -305,11 +296,6 @@ nav a {
   font-size: 18px;
   line-height: 1.7;
   opacity: 0.85;
-}
-
-/* Parallax */
-.story-parallax {
-  transform: translateY(var(--story-parallax-offset));
 }
 
 /* Mobile */
@@ -358,7 +344,7 @@ footer a {
 
 <!-- DIAGONALES HEADER-BILD -->
 <div class="hero-image">
-  <img src="factory-4678019_1920.jpg" alt="Industriehalle">
+  <img src="DEIN-BILD.jpg" alt="Industriehalle">
 </div>
 
 <!-- FLOATING HERO-BOX -->
@@ -439,31 +425,16 @@ window.addEventListener("scroll", () => {
 
   // Parallax Header
   const offset = scrollY * 0.25;
-  heroImg.style.setProperty("--parallax-offset", offset + "px");
-  heroImg.classList.add("parallax-active");
+  heroImg.style.transform = `translateY(${offset}px)`;
 
   // Abdunkeln
   if (scrollY > 120) {
-    heroImg.classList.add("hero-darken");
+    heroImg.style.filter = "brightness(0.55)";
   } else {
-    heroImg.classList.remove("hero-darken");
+    heroImg.style.filter = "brightness(0.85)";
   }
-});
-
-// Parallax für Story-Bilder
-const storyImages = document.querySelectorAll(".story-image img");
-
-window.addEventListener("scroll", () => {
-  const scrollY = window.scrollY;
-
-  storyImages.forEach(img => {
-    const offset = scrollY * 0.15;
-    img.style.setProperty("--story-parallax-offset", offset + "px");
-    img.classList.add("story-parallax");
-  });
 });
 </script>
 
 </body>
 </html>
-
